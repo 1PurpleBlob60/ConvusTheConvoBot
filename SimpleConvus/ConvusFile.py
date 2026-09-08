@@ -1,7 +1,5 @@
 import random 
-import responses as resp
-
-
+from SimpleConvus import responses as resp
 
 waiting_for_answer1 = False
 waiting_for_answer2 = False
@@ -25,7 +23,7 @@ while True:
 
     if choice1 == "awesome":
         print("Awesome!")
-        print["=========================="]
+        print("==========================")
         continue
     elif choice1 in ("good", "im doing good", "im good", "good!", "awesome"):
         print(random.choice(resp.followup1))
