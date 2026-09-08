@@ -1,5 +1,6 @@
-import random 
-from SimpleConvus import responses as resp
+import random
+#from SimpleConvus 
+import responses as resp
 
 waiting_for_answer1 = False
 waiting_for_answer2 = False
