@@ -1,6 +1,11 @@
+# dont touch this side = this side can be edited remember to use "", "" if not, use only [""]
 followup1 = ["Great", "Good to hear that", "Awesome!"]
 question1 = ["Good, you?", "I'm good, you?"]
 greet = ["Hi There!", "Hi!", "Hello"]
 question2 = ["What do you like?", "What is you favourite food?"]
 followup2 = ["That's great!", "Wow", "Awesome"]
 joke = ["Why can't you tell a joke to an egg? It might crack up!", "What do you call a magic dog? A labracadabrador!"]
+invalid = ["?", "What do you mean?", "What?", "I don't understand"]
+special_word = ["awesome"]
+special_word_resp = "Awesome!"
+goodbye = ["Bye!", "See you later!", "👋", "(:"]
