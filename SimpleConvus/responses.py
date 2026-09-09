@@ -6,6 +6,5 @@ question2 = ["What do you like?", "What is you favourite food?"]
 followup2 = ["That's great!", "Wow", "Awesome"]
 joke = ["Why can't you tell a joke to an egg? It might crack up!", "What do you call a magic dog? A labracadabrador!"]
 invalid = ["?", "What do you mean?", "What?", "I don't understand"]
-special_word = ["awesome"]
 special_word_resp = "Awesome!"
 goodbye = ["Bye!", "See you later!", "👋", "(:"]

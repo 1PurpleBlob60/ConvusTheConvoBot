@@ -1,11 +1,10 @@
 import random
 import responses as resp
+import ifin as ifn
 
 waiting_for_answer1 = False
 waiting_for_answer2 = False
 
-print("=======================================")
-print("write exit to exit.")
 print("=======================================")
 
 while True:
@@ -25,28 +24,28 @@ while True:
     for sign in ["!", "?", ".", ",", "-"]:
         choice = choice.replace(sign, "")
 
-    if choice in resp.special_word:
+    if choice in ifn.special_word:
         print(resp.special_word_resp)
         print("==========================")
         continue
-    elif choice in ("how are you", "how are you doing", "how are you?", "how are you doing?"):
+    elif choice in ifn.question1:
         print(random.choice(resp.question1))
         print("==========================")
         waiting_for_answer1 = True
         continue
-    elif choice in ("hello", "hi", "sup", "whats up"):
+    elif choice in ifn.greet:
         print(random.choice(resp.greet))
         print("==========================")
         continue
-    elif choice == (""):
+    elif choice in ifn.question_start:
         print(random.choice(resp.question2))
         print("==========================")
         waiting_for_answer2 = True
-    elif choice in ("tell me a joke", "tell a joke", "give me a joke", "joke"):
+    elif choice in ifn.joke:
         print(random.choice(resp.joke))
         print("==========================")
         continue
-    elif choice == "exit":
+    elif choice in ifn.exit:
         print(random.choice(resp.goodbye))
         break
     else:
