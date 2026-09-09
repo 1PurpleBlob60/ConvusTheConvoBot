@@ -1,6 +1,6 @@
 exit = ["exit", "quit", "close", "end", "stop", "leave", "bye", "goodbye"]
 joke = ["tell me a joke", "tell a joke", "give me a joke", "joke"]
-question_start = ["ask me a question", " ", "ask a question", "quesion"]
+question_start = ["ask me a question", "", "ask a question", "quesion"]
 greet = ["hello", "hi", "sup", "whats up"]
-question1 = ["how are you", "how are you doing", "how are you?", "how are you doing?", "how r u", "how r you"]
+question_start2 = ["how are you", "how are you doing", "how are you?", "how are you doing?", "how r u", "how r you"]
 special_word = ["awesome"]

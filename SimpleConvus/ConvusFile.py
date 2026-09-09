@@ -2,24 +2,23 @@ import random
 import responses as resp
 import ifin as ifn
 
-waiting_for_answer1 = False
-waiting_for_answer2 = False
+waiting_for = None
 
 print("=======================================")
 
 while True:
-    choice = input(": ").lower().strip()
+    choice = input("You: ").lower().strip()
     print("                                                                     ")
 
-    if waiting_for_answer2:
+    if waiting_for == 2:
         print(random.choice(resp.followup2))
         print("===========================")
-        waiting_for_answer2 = False
+        waiting_for = None
         continue
-    if waiting_for_answer1:
+    if waiting_for == 1:
         print(random.choice(resp.followup1))
         print("===========================")
-        waiting_for_answer1 = False
+        waiting_for = None
         continue
     for sign in ["!", "?", ".", ",", "-"]:
         choice = choice.replace(sign, "")
@@ -28,10 +27,10 @@ while True:
         print(resp.special_word_resp)
         print("==========================")
         continue
-    elif choice in ifn.question1:
+    elif choice in ifn.question_start2:
         print(random.choice(resp.question1))
         print("==========================")
-        waiting_for_answer1 = True
+        waiting_for = 1
         continue
     elif choice in ifn.greet:
         print(random.choice(resp.greet))
@@ -40,7 +39,7 @@ while True:
     elif choice in ifn.question_start:
         print(random.choice(resp.question2))
         print("==========================")
-        waiting_for_answer2 = True
+        waiting_for = 2
     elif choice in ifn.joke:
         print(random.choice(resp.joke))
         print("==========================")
@@ -52,4 +51,3 @@ while True:
         print(random.choice(resp.invalid))
         print("==========================")
         continue
-
