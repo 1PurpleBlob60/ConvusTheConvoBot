@@ -18,11 +18,13 @@ with st.sidebar:
     user_icon = st.text_input(
         "User icon",
         value="😶‍🌫",
+        max_chars=1,
         help="Enter an emoji."
     )
     assistant_icon = st.text_input(
         "Assistant icon",
         value="🫧",
+        max_chars=1,
         help="Enter an emoji."
     )
     if st.button("Clear Chat"):
