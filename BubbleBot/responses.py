@@ -8,3 +8,4 @@ joke = ["Why can't you tell a joke to an egg? It might crack up!", "What do you 
 invalid = ["?", "What do you mean?", "What?", "I don't understand"]
 special_word_resp = "Awesome!"
 goodbye = ["Bye!", "See you later!", "👋", "(:"]
+name_resp = ["I am BubbleBot, your friendly chatbot!", "My name is BubbleBot!"]

@@ -70,6 +70,8 @@ if user_input := st.chat_input("Type a message..."):
             st.session_state.waiting_for = 1
         elif cleaned_choice in ifn.greet:
             bot_response = random.choice(resp.greet)
+        elif cleaned_choice in ifn.name:
+            bot_response = random.choice(resp.name)
         elif cleaned_choice in ifn.question_start:
             bot_response = random.choice(resp.question2)
             st.session_state.waiting_for = 2
