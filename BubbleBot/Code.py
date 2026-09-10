@@ -15,7 +15,7 @@ if "waiting_for" not in st.session_state:
 # Sidebar option to reset/clear chat
 with st.sidebar:
     st.header("Settings")
-|    user_icon = st.text_input(
+    user_icon = st.text_input(
         "User icon",
         value="😶‍🌫",
         help="Enter an emoji."
