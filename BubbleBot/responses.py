@@ -1,5 +1,5 @@
 # dont touch this side = this side can be edited remember to use "", "" if not, use only [""]
-followup1 = ["Great", "Good to hear that", "Awesome!"]
+followup1 = ["Great", "Good to hear that", "Awesome!", "Ok"]
 question1 = ["Good, you?", "I'm good, you?"]
 greet = ["Hi There!", "Hi!", "Hello"]
 question2 = ["What do you like?", "What is you favourite food?"]
@@ -9,3 +9,4 @@ invalid = ["?", "What do you mean?", "What?", "I don't understand"]
 special_word_resp = "Awesome!"
 goodbye = ["Bye!", "See you later!", "👋", "(:"]
 name = ["I am BubbleBot, your friendly chatbot!", "My name is BubbleBot!"]
+sensored = ["Please don't use offensive language.", "DON'T SAY THAT!", "Fuck you too (:", "NO!"]

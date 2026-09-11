@@ -72,6 +72,9 @@ if user_input := st.chat_input("Type a message..."):
             bot_response = random.choice(resp.greet)
         elif cleaned_choice in ifn.name:
             bot_response = random.choice(resp.name)
+        elif cleaned_choice in ifn.sensored:
+            bot_response = random.choice(resp.bot_response)
+            bot_response = "Please refrain from using offensive language."
         elif cleaned_choice in ifn.question_start:
             bot_response = random.choice(resp.question2)
             st.session_state.waiting_for = 2
