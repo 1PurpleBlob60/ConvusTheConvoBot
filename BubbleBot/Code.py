@@ -3,6 +3,20 @@ import streamlit as st
 import responses as resp
 import ifin as ifn
 
+
+def calculate(first_number, operator, second_number):
+    if operator == "+":
+        return first_number + second_number
+    if operator == "-":
+        return first_number - second_number
+    if operator == "*":
+        return first_number * second_number
+    if operator == "/":
+        if second_number == 0:
+            return "Cannot divide by zero."
+        return first_number / second_number
+
+
 st.title("Bubble bot🫧")
 
 # 1. Initialize Session State for Chat History & Follow-up tracking
@@ -11,6 +25,12 @@ if "messages" not in st.session_state:
 
 if "waiting_for" not in st.session_state:
     st.session_state.waiting_for = None
+
+if "calculator_number" not in st.session_state:
+    st.session_state.calculator_number = None
+
+if "calculator_operator" not in st.session_state:
+    st.session_state.calculator_operator = None
 
 # Sidebar option to reset/clear chat
 with st.sidebar:
@@ -28,6 +48,8 @@ with st.sidebar:
     if st.button("Clear Chat"):
         st.session_state.messages = []
         st.session_state.waiting_for = None
+        st.session_state.calculator_number = None
+        st.session_state.calculator_operator = None
         st.rerun()
 
 # 2. Render previous chat messages on rerun
@@ -56,6 +78,45 @@ if user_input := st.chat_input("Type a message..."):
     elif st.session_state.waiting_for == 1:
         bot_response = random.choice(resp.followup1)
         st.session_state.waiting_for = None
+    elif st.session_state.waiting_for == 3:
+        operators = {
+            "+": "+",
+            "plus": "+",
+            "add": "+",
+            "-": "-",
+            "minus": "-",
+            "subtract": "-",
+            "*": "*",
+            "x": "*",
+            "multi": "*",
+            "multiply": "*",
+            "times": "*",
+            "/": "/",
+            "divide": "/",
+            "divided": "/",
+        }
+        operator = operators.get(user_input.lower().strip())
+        if operator is None:
+            bot_response = "Please choose plus, minus, multiply, or divide."
+        else:
+            st.session_state.calculator_operator = operator
+            st.session_state.waiting_for = 4
+            bot_response = "What is the second number?"
+    elif st.session_state.waiting_for == 4:
+        try:
+            second_number = float(user_input.strip())
+        except ValueError:
+            bot_response = "Please enter a number."
+        else:
+            result = calculate(
+                st.session_state.calculator_number,
+                st.session_state.calculator_operator,
+                second_number,
+            )
+            bot_response = f"Result: {result:g}" if isinstance(result, float) else result
+            st.session_state.waiting_for = None
+            st.session_state.calculator_number = None
+            st.session_state.calculator_operator = None
     else:
         # Clean string for keyword matching
         cleaned_choice = user_input.lower().strip()
@@ -68,21 +129,31 @@ if user_input := st.chat_input("Type a message..."):
         elif cleaned_choice in ifn.question_start2:
             bot_response = random.choice(resp.question1)
             st.session_state.waiting_for = 1
-        elif cleaned_choice in ifn.greet:
-            bot_response = random.choice(resp.greet)
-        elif cleaned_choice in ifn.name:
-            bot_response = random.choice(resp.name)
-        elif cleaned_choice in ifn.sensored:
-            bot_response = random.choice(resp.sensored)
-        elif cleaned_choice in ifn.question_start:
-            bot_response = random.choice(resp.question2)
-            st.session_state.waiting_for = 2
-        elif cleaned_choice in ifn.joke:
-            bot_response = random.choice(resp.joke)
-        elif cleaned_choice in ifn.exit:
-            bot_response = random.choice(resp.goodbye)
         else:
-            bot_response = random.choice(resp.invalid)
+            try:
+                number = float(cleaned_choice)
+            except ValueError:
+                number = None
+
+            if number is not None:
+                st.session_state.calculator_number = number
+                bot_response = "Choose plus, minus, multiply, or divide."
+                st.session_state.waiting_for = 3
+            elif cleaned_choice in ifn.greet:
+                bot_response = random.choice(resp.greet)
+            elif cleaned_choice in ifn.name:
+                bot_response = random.choice(resp.name)
+            elif cleaned_choice in ifn.sensored:
+                bot_response = random.choice(resp.sensored)
+            elif cleaned_choice in ifn.question_start:
+                bot_response = random.choice(resp.question2)
+                st.session_state.waiting_for = 2
+            elif cleaned_choice in ifn.joke:
+                bot_response = random.choice(resp.joke)
+            elif cleaned_choice in ifn.exit:
+                bot_response = random.choice(resp.goodbye)
+            else:
+                bot_response = random.choice(resp.invalid)
 
     # Display bot response in chat
     with st.chat_message("assistant", avatar=assistant_icon):
