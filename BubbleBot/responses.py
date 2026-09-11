@@ -9,4 +9,4 @@ invalid = ["?", "What do you mean?", "What?", "I don't understand"]
 special_word_resp = "Awesome!"
 goodbye = ["Bye!", "See you later!", "👋", "(:"]
 name = ["I am BubbleBot, your friendly chatbot!", "My name is BubbleBot!"]
-sensored = ["Please don't use offensive language.", "DON'T SAY THAT!", "Fuck you too (:", "NO!"]
+sensored = ["Please don't use offensive language.", "DON'T SAY THAT!", "Fuck you too (:", "NO!", "STOP!", "YOU SHOULD KILL YOURSELF!"]
