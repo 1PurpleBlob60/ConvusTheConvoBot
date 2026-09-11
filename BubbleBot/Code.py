@@ -1,4 +1,6 @@
 import random
+from urllib.parse import urlparse
+
 import streamlit as st
 import responses as resp
 import ifin as ifn
@@ -15,6 +17,29 @@ def calculate(first_number, operator, second_number):
         if second_number == 0:
             return "Cannot divide by zero."
         return first_number / second_number
+
+
+def apply_background(image_address):
+    parsed_address = urlparse(image_address)
+    if parsed_address.scheme not in {"http", "https"} or not parsed_address.netloc:
+        return
+
+    st.markdown(
+        f"""
+        <style>
+        [data-testid="stAppViewContainer"] {{
+            background-image: url("{image_address}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
+        [data-testid="stHeader"] {{
+            background: rgba(0, 0, 0, 0);
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 st.title("Bubble bot🫧")
@@ -45,12 +70,21 @@ with st.sidebar:
         value="🫧",
         help="Enter an emoji."
     )
+    background_address = st.text_input(
+        "Background image address",
+        value="",
+        placeholder="https://example.com/image.jpg",
+        help="Optional: enter a direct HTTP or HTTPS image address.",
+    )
     if st.button("Clear Chat"):
         st.session_state.messages = []
         st.session_state.waiting_for = None
         st.session_state.calculator_number = None
         st.session_state.calculator_operator = None
         st.rerun()
+
+if background_address.strip():
+    apply_background(background_address.strip())
 
 # 2. Render previous chat messages on rerun
 for message in st.session_state.messages:
