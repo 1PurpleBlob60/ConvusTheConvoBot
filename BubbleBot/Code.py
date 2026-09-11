@@ -182,6 +182,8 @@ if user_input := st.chat_input("Type a message..."):
             elif cleaned_choice in ifn.question_start:
                 bot_response = random.choice(resp.question2)
                 st.session_state.waiting_for = 2
+            elif cleaned_choice in ifn.gay:
+                bot_response = random.choice(resp.gay)
             elif cleaned_choice in ifn.joke:
                 bot_response = random.choice(resp.joke)
             elif cleaned_choice in ifn.exit:

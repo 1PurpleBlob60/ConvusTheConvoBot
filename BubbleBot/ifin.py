@@ -6,3 +6,4 @@ question_start2 = ["how are you", "how are you doing", "how are you?", "how are 
 special_word = ["awesome"]
 name = ["what is your name", "what's your name", "who are you", "who are you?", "who r u", "who r you"]
 sensored = ["fuck you", "nigger", "nigga", "retard", "fuck", "bitch", "shit", "dick"]
+gay = ["youre gay", "you are gay", "gay"]

@@ -10,3 +10,4 @@ special_word_resp = "Awesome!"
 goodbye = ["Bye!", "See you later!", "👋", "(:"]
 name = ["I am BubbleBot, your friendly chatbot!", "My name is BubbleBot!"]
 sensored = ["Please don't use offensive language.", "DON'T SAY THAT!", "Fuck you too (:", "NO!", "STOP!", "YOU SHOULD KILL YOURSELF!"]
+gay = ["I'm sorry, but I can't engage in that conversation.", "That's not something I can help with.", "I'm here to have a good conversation, not a bad one."]
