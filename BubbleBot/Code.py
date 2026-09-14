@@ -42,7 +42,8 @@ def apply_background(image_address):
     )
 
 
-st.title("Bubble bot")(assistant_icon := "🫧")
+assistant_icon = "🫧"
+st.title("Bubble bot")
 
 # 1. Initialize Session State for Chat History & Follow-up tracking
 if "messages" not in st.session_state:
