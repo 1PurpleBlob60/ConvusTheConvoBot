@@ -42,19 +42,33 @@ def apply_background(image_address):
     )
 
 
-def apply_sidebar_button_color(button_color):
+def apply_button_color(button_color):
     st.markdown(
         f"""
         <style>
-        [data-testid="stSidebar"] .stButton > button {{
+        [data-testid="stSidebar"] .stButton > button,
+        [data-testid="stChatInput"] button {{
             background-color: {button_color};
             border-color: {button_color};
         }}
         [data-testid="stSidebar"] .stButton > button:hover,
-        [data-testid="stSidebar"] .stButton > button:focus {{
+        [data-testid="stSidebar"] .stButton > button:focus,
+        [data-testid="stChatInput"] button:hover,
+        [data-testid="stChatInput"] button:focus {{
             background-color: {button_color};
             border-color: {button_color};
             color: white;
+        }}
+        [data-testid="stChatInput"],
+        [data-testid="stChatInput"] > div,
+        [data-testid="stChatInput"] div[data-baseweb="textarea"] {{
+            border-color: {button_color};
+        }}
+        [data-testid="stChatInput"]:focus-within,
+        [data-testid="stChatInput"]:focus-within > div,
+        [data-testid="stChatInput"]:focus-within div[data-baseweb="textarea"] {{
+            border-color: {button_color};
+            box-shadow: 0 0 0 1px {button_color};
         }}
         </style>
         """,
@@ -97,8 +111,8 @@ with st.sidebar:
         placeholder="https://example.com/image.jpg",
         help="Optional: enter a direct HTTP or HTTPS image address.",
     )
-    button_color = st.color_picker("Sidebar button color", value="#ff4b4b")
-    apply_sidebar_button_color(button_color)
+    button_color = st.color_picker("Button color", value="#ff4b4b")
+    apply_button_color(button_color)
     if st.button("Clear Chat"):
         st.session_state.messages = []
         st.session_state.waiting_for = None
