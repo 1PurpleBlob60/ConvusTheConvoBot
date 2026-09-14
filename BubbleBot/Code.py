@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 import streamlit as st
 import responses as resp
 import ifin as ifn
+from FeedBack import record_feedback
 
 
 def calculate(first_number, operator, second_number):
@@ -58,6 +59,9 @@ if "calculator_number" not in st.session_state:
 if "calculator_operator" not in st.session_state:
     st.session_state.calculator_operator = None
 
+if "feedback" not in st.session_state:
+    st.session_state.feedback = {}
+
 # Sidebar option to reset/clear chat
 with st.sidebar:
     st.header("Settings")
@@ -79,6 +83,7 @@ with st.sidebar:
     )
     if st.button("Clear Chat"):
         st.session_state.messages = []
+        st.session_state.feedback = {}
         st.session_state.waiting_for = None
         st.session_state.calculator_number = None
         st.session_state.calculator_operator = None
@@ -88,7 +93,7 @@ if background_address.strip():
     apply_background(background_address.strip())
 
 # 2. Render previous chat messages on rerun
-for message in st.session_state.messages:
+for message_index, message in enumerate(st.session_state.messages):
     if message["role"] == "assistant":
         message_context = st.chat_message("assistant", avatar=assistant_icon)
     else:
@@ -96,6 +101,13 @@ for message in st.session_state.messages:
 
     with message_context:
         st.write(message["content"])
+        if message["role"] == "assistant":
+            rating = st.feedback(
+                "thumbs",
+                key=f"feedback_{message_index}",
+            )
+            if rating is not None:
+                record_feedback(message_index, rating)
 
 # 3. Handle User Input
 if user_input := st.chat_input("Type a message..."):
@@ -195,4 +207,8 @@ if user_input := st.chat_input("Type a message..."):
     # Display bot response in chat
     with st.chat_message("assistant", avatar=assistant_icon):
         st.write(bot_response)
+        message_index = len(st.session_state.messages)
+        rating = st.feedback("thumbs", key=f"feedback_{message_index}")
+        if rating is not None:
+            record_feedback(message_index, rating)
     st.session_state.messages.append({"role": "assistant", "content": bot_response})
