@@ -42,6 +42,26 @@ def apply_background(image_address):
     )
 
 
+def apply_sidebar_button_color(button_color):
+    st.markdown(
+        f"""
+        <style>
+        [data-testid="stSidebar"] .stButton > button {{
+            background-color: {button_color};
+            border-color: {button_color};
+        }}
+        [data-testid="stSidebar"] .stButton > button:hover,
+        [data-testid="stSidebar"] .stButton > button:focus {{
+            background-color: {button_color};
+            border-color: {button_color};
+            color: white;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 
 st.title("Bubble bot🫧")
 
@@ -77,6 +97,8 @@ with st.sidebar:
         placeholder="https://example.com/image.jpg",
         help="Optional: enter a direct HTTP or HTTPS image address.",
     )
+    button_color = st.color_picker("Sidebar button color", value="#ff4b4b")
+    apply_sidebar_button_color(button_color)
     if st.button("Clear Chat"):
         st.session_state.messages = []
         st.session_state.waiting_for = None
