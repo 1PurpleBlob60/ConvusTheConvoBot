@@ -92,8 +92,14 @@ def show_login():
         elif not username.strip():
             st.error("Enter a username.")
         else:
-            st.session_state.email = email.strip()
+            normalized_email = email.strip().lower()
+            st.session_state.email = normalized_email
             st.session_state.username = username.strip()
+            saved_preferences = st.session_state.user_preferences.get(normalized_email, {})
+            st.session_state.button_color = saved_preferences.get(
+                "button_color",
+                st.session_state.button_color,
+            )
             st.session_state.logged_in = True
             st.rerun()
 
@@ -103,6 +109,9 @@ if "logged_in" not in st.session_state:
 
 if "button_color" not in st.session_state:
     st.session_state.button_color = "#ff4b4b"
+
+if "user_preferences" not in st.session_state:
+    st.session_state.user_preferences = {}
 
 if not st.session_state.logged_in:
     show_login()
@@ -170,6 +179,9 @@ with st.sidebar:
         help="Optional: enter a direct HTTP or HTTPS image address.",
     )
     button_color = st.color_picker("Button color", key="button_color")
+    st.session_state.user_preferences[st.session_state.email] = {
+        "button_color": button_color,
+    }
     apply_button_color(button_color)
     if st.button("Clear Chat"):
         st.session_state.messages = []
