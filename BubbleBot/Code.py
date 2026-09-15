@@ -49,27 +49,27 @@ def apply_button_color(button_color):
         <style>
         [data-testid="stSidebar"] .stButton > button,
         [data-testid="stChatInput"] button {{
-            background-color: {button_color};
-            border-color: {button_color};
+            background-color: {button_color} !important;
+            border-color: {button_color} !important;
         }}
         [data-testid="stSidebar"] .stButton > button:hover,
         [data-testid="stSidebar"] .stButton > button:focus,
         [data-testid="stChatInput"] button:hover,
         [data-testid="stChatInput"] button:focus {{
-            background-color: {button_color};
-            border-color: {button_color};
-            color: white;
+            background-color: {button_color} !important;
+            border-color: {button_color} !important;
+            color: white !important;
         }}
         [data-testid="stChatInput"],
         [data-testid="stChatInput"] > div,
         [data-testid="stChatInput"] div[data-baseweb="textarea"] {{
-            border-color: {button_color};
+            border-color: {button_color} !important;
         }}
         [data-testid="stChatInput"]:focus-within,
         [data-testid="stChatInput"]:focus-within > div,
         [data-testid="stChatInput"]:focus-within div[data-baseweb="textarea"] {{
-            border-color: {button_color};
-            box-shadow: 0 0 0 1px {button_color};
+            border-color: {button_color} !important;
+            box-shadow: 0 0 0 1px {button_color} !important;
         }}
         </style>
         """,
