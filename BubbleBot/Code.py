@@ -77,6 +77,14 @@ def apply_button_color(button_color):
     )
 
 
+def save_button_color():
+    selected_color = st.session_state.button_color_picker
+    st.session_state.button_color = selected_color
+    st.session_state.user_preferences[st.session_state.email] = {
+        "button_color": selected_color,
+    }
+
+
 def show_login():
     st.title("Bubble bot🫧")
     st.subheader("Log in to start chatting")
@@ -100,6 +108,7 @@ def show_login():
                 "button_color",
                 st.session_state.button_color,
             )
+            st.session_state.button_color_picker = st.session_state.button_color
             st.session_state.logged_in = True
             st.rerun()
 
@@ -109,6 +118,9 @@ if "logged_in" not in st.session_state:
 
 if "button_color" not in st.session_state:
     st.session_state.button_color = "#ff4b4b"
+
+if "button_color_picker" not in st.session_state:
+    st.session_state.button_color_picker = st.session_state.button_color
 
 if "user_preferences" not in st.session_state:
     st.session_state.user_preferences = {}
@@ -181,11 +193,13 @@ with st.sidebar:
         placeholder="https://example.com/image.jpg",
         help="Optional: enter a direct HTTP or HTTPS image address.",
     )
-    button_color = st.color_picker("Button color", key="button_color")
-    st.session_state.user_preferences[st.session_state.email] = {
-        "button_color": button_color,
-    }
-    apply_button_color(button_color)
+    st.session_state.button_color_picker = st.session_state.button_color
+    st.color_picker(
+        "Button color",
+        key="button_color_picker",
+        on_change=save_button_color,
+    )
+    apply_button_color(st.session_state.button_color)
     if st.button("Clear Chat"):
         st.session_state.messages = []
         st.session_state.waiting_for = None
