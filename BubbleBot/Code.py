@@ -101,6 +101,9 @@ def show_login():
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
+if "button_color" not in st.session_state:
+    st.session_state.button_color = "#ff4b4b"
+
 if not st.session_state.logged_in:
     show_login()
     st.stop()
@@ -166,7 +169,7 @@ with st.sidebar:
         placeholder="https://example.com/image.jpg",
         help="Optional: enter a direct HTTP or HTTPS image address.",
     )
-    button_color = st.color_picker("Button color", value="#ff4b4b")
+    button_color = st.color_picker("Button color", key="button_color")
     apply_button_color(button_color)
     if st.button("Clear Chat"):
         st.session_state.messages = []
