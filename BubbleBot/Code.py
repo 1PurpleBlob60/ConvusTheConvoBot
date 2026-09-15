@@ -160,6 +160,7 @@ with st.sidebar:
         )
         if st.button("Save username"):
             if new_username.strip():
+                st.session_state.button_color_picker = st.session_state.button_color
                 st.session_state.username = new_username.strip()
                 st.session_state.changing_username = False
                 st.rerun()
@@ -190,7 +191,6 @@ with st.sidebar:
         placeholder="https://example.com/image.jpg",
         help="Optional: enter a direct HTTP or HTTPS image address.",
     )
-    st.session_state.button_color_picker = st.session_state.button_color
     st.color_picker(
         "Button color",
         key="button_color_picker",
