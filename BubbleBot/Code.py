@@ -149,30 +149,11 @@ if "calculator_operator" not in st.session_state:
 with st.sidebar:
     st.header("Settings")
     st.write(f"Logged in as **{st.session_state.username}**")
-    if st.button("Change username"):
-        st.session_state.changing_username = True
-
-    if st.session_state.get("changing_username", False):
-        new_username = st.text_input(
-            "New username",
-            value=st.session_state.username,
-            key="new_username",
-        )
-        if st.button("Save username"):
-            if new_username.strip():
-                st.session_state.button_color_picker = st.session_state.button_color
-                st.session_state.username = new_username.strip()
-                st.session_state.changing_username = False
-                st.rerun()
-            else:
-                st.error("Enter a username.")
 
     if st.button("Log out"):
         st.session_state.logged_in = False
         st.session_state.pop("email", None)
         st.session_state.pop("username", None)
-        st.session_state.pop("changing_username", None)
-        st.session_state.pop("new_username", None)
         st.rerun()
 
     user_icon = st.text_input(
