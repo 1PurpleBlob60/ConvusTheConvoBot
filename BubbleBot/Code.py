@@ -1,4 +1,5 @@
 import random
+import re
 from urllib.parse import urlparse
 
 import streamlit as st
@@ -76,6 +77,34 @@ def apply_button_color(button_color):
     )
 
 
+def show_login():
+    st.title("Bubble bot🫧")
+    st.subheader("Log in to start chatting")
+
+    with st.form("login_form"):
+        email = st.text_input("Email", placeholder="you@example.com")
+        username = st.text_input("Username", placeholder="Your name")
+        submitted = st.form_submit_button("Log in")
+
+    if submitted:
+        if not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", email.strip()):
+            st.error("Enter a valid email address.")
+        elif not username.strip():
+            st.error("Enter a username.")
+        else:
+            st.session_state.email = email.strip()
+            st.session_state.username = username.strip()
+            st.session_state.logged_in = True
+            st.rerun()
+
+
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+if not st.session_state.logged_in:
+    show_login()
+    st.stop()
+
 
 st.title("Bubble bot🫧")
 
@@ -95,6 +124,32 @@ if "calculator_operator" not in st.session_state:
 # Sidebar option to reset/clear chat
 with st.sidebar:
     st.header("Settings")
+    st.write(f"Logged in as **{st.session_state.username}**")
+    if st.button("Change username"):
+        st.session_state.changing_username = True
+
+    if st.session_state.get("changing_username", False):
+        new_username = st.text_input(
+            "New username",
+            value=st.session_state.username,
+            key="new_username",
+        )
+        if st.button("Save username"):
+            if new_username.strip():
+                st.session_state.username = new_username.strip()
+                st.session_state.changing_username = False
+                st.rerun()
+            else:
+                st.error("Enter a username.")
+
+    if st.button("Log out"):
+        st.session_state.logged_in = False
+        st.session_state.pop("email", None)
+        st.session_state.pop("username", None)
+        st.session_state.pop("changing_username", None)
+        st.session_state.pop("new_username", None)
+        st.rerun()
+
     user_icon = st.text_input(
         "User icon",
         value="😶‍🌫",
@@ -128,7 +183,10 @@ for message in st.session_state.messages:
     if message["role"] == "assistant":
         message_context = st.chat_message("assistant", avatar=assistant_icon)
     else:
-        message_context = st.chat_message("user", avatar=user_icon)
+        message_context = st.chat_message(
+            st.session_state.username,
+            avatar=user_icon,
+        )
 
     with message_context:
         st.write(message["content"])
@@ -136,7 +194,7 @@ for message in st.session_state.messages:
 # 3. Handle User Input
 if user_input := st.chat_input("Type a message..."):
     # Display user message in chat
-    with st.chat_message("user", avatar=user_icon):
+    with st.chat_message(st.session_state.username, avatar=user_icon):
         st.write(user_input)
     st.session_state.messages.append({"role": "user", "content": user_input})
 
@@ -211,7 +269,7 @@ if user_input := st.chat_input("Type a message..."):
                 bot_response = "Choose plus, minus, multiply, or divide."
                 st.session_state.waiting_for = 3
             elif cleaned_choice in ifn.greet:
-                bot_response = random.choice(resp.greet)
+                bot_response = f"Hi {st.session_state.username}!"
             elif cleaned_choice in ifn.name:
                 bot_response = random.choice(resp.name)
             elif cleaned_choice in ifn.sensored:
