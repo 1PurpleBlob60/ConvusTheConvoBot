@@ -28,11 +28,15 @@ def apply_background(image_address):
     st.markdown(
         f"""
         <style>
-        [data-testid="stAppViewContainer"] {{
+        [data-testid="stAppViewContainer"] > .main {{
             background-image: url("{image_address}");
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            background-repeat: no-repeat;
+        }}
+        [data-testid="stSidebar"] > div:first-child {{
+            background-color: var(--background-color);
         }}
         [data-testid="stHeader"] {{
             background: rgba(0, 0, 0, 0);
