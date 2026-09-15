@@ -160,9 +160,6 @@ with st.sidebar:
         )
         if st.button("Save username"):
             if new_username.strip():
-                st.session_state.user_preferences[st.session_state.email] = {
-                    "button_color": st.session_state.button_color,
-                }
                 st.session_state.username = new_username.strip()
                 st.session_state.changing_username = False
                 st.rerun()
