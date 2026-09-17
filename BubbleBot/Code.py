@@ -151,6 +151,16 @@ with st.sidebar:
         on_change=save_button_color,
     )
     apply_button_color(st.session_state.button_color)
+
+    with st.expander("Commands & shortcuts"):
+        st.markdown(
+            """
+            - Translate: `translate`, `tr`, `trans`
+            - Languages: `f` = French, `s` = Spanish, `g` = German
+            - Full names also work: French, Spanish, German
+            """
+        )
+
     if st.button("Clear Chat"):
         st.session_state.messages = []
         st.session_state.waiting_for = None
@@ -228,9 +238,9 @@ if user_input := st.chat_input("Type a message..."):
             st.session_state.calculator_number = None
             st.session_state.calculator_operator = None
     elif st.session_state.waiting_for == 5:
-        language_code = resp.get_language_code(user_input)
+        language_code = resp.get_translation_choice(user_input)
         if language_code is None:
-            bot_response = "Please choose French, Spanish, or German."
+            bot_response = resp.get_translate_prompt()
         else:
             st.session_state.translation_language = language_code
             st.session_state.waiting_for = 6
@@ -273,8 +283,8 @@ if user_input := st.chat_input("Type a message..."):
                 st.session_state.waiting_for = 2
             elif cleaned_choice in ifn.gay:
                 bot_response = random.choice(resp.gay)
-            elif cleaned_choice in ifn.translate:
-                bot_response = "Choose a language: French, Spanish, or German."
+            elif resp.is_translate_command(cleaned_choice):
+                bot_response = resp.get_translate_prompt()
                 st.session_state.waiting_for = 5
             elif cleaned_choice in ifn.joke:
                 bot_response = random.choice(resp.joke)

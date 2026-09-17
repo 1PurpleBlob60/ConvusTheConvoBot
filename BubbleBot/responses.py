@@ -20,14 +20,17 @@ LANGUAGE_CODES = {
     "france": "fr",
     "francais": "fr",
     "français": "fr",
+    "f": "fr",
+    "fr": "fr",
     "spanish": "es",
     "espanol": "es",
     "español": "es",
+    "s": "es",
+    "es": "es",
     "german": "de",
     "deutsch": "de",
     "deutschland": "de",
-    "fr": "fr",
-    "es": "es",
+    "g": "de",
     "de": "de",
 }
 
@@ -35,7 +38,7 @@ LANGUAGE_CODES = {
 def get_language_code(language):
     if not language:
         return None
-    normalized = language.strip().lower().replace(" ", "")
+    normalized = language.strip().lower().replace(" ", "").replace("-", "")
     return LANGUAGE_CODES.get(normalized)
 
 
@@ -95,3 +98,52 @@ def translate_text(text, target_language):
         pass
 
     return text
+
+
+TRANSLATE_ALIASES = [
+    "translate",
+    "translate text",
+    "translation",
+    "translator",
+    "trans",
+    "tr",
+    "tl",
+]
+
+
+def is_translate_command(command):
+    if not command:
+        return False
+    normalized = command.strip().lower().replace("!", "").replace("?", "")
+    return normalized in TRANSLATE_ALIASES
+
+
+TRANSLATE_LANGUAGE_ALIASES = {
+    "f": "fr",
+    "fr": "fr",
+    "french": "fr",
+    "france": "fr",
+    "francais": "fr",
+    "français": "fr",
+    "s": "es",
+    "es": "es",
+    "spanish": "es",
+    "espanol": "es",
+    "español": "es",
+    "g": "de",
+    "de": "de",
+    "german": "de",
+    "deutsch": "de",
+    "deutschland": "de",
+}
+
+
+def get_translation_choice(language):
+    if not language:
+        return None
+    normalized = language.strip().lower().replace(" ", "").replace("-", "")
+    return TRANSLATE_LANGUAGE_ALIASES.get(normalized)
+
+
+def get_translate_prompt():
+    return "Choose a language: French (f), Spanish (s), or German (g)."
