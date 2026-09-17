@@ -121,6 +121,9 @@ if "calculator_number" not in st.session_state:
 if "calculator_operator" not in st.session_state:
     st.session_state.calculator_operator = None
 
+if "translation_language" not in st.session_state:
+    st.session_state.translation_language = None
+
 # Sidebar option to reset/clear chat
 with st.sidebar:
     st.header("Settings")
@@ -153,6 +156,7 @@ with st.sidebar:
         st.session_state.waiting_for = None
         st.session_state.calculator_number = None
         st.session_state.calculator_operator = None
+        st.session_state.translation_language = None
         st.rerun()
 
 # 2. Render previous chat messages on rerun
@@ -223,6 +227,19 @@ if user_input := st.chat_input("Type a message..."):
             st.session_state.waiting_for = None
             st.session_state.calculator_number = None
             st.session_state.calculator_operator = None
+    elif st.session_state.waiting_for == 5:
+        language_code = resp.get_language_code(user_input)
+        if language_code is None:
+            bot_response = "Please choose French, Spanish, or German."
+        else:
+            st.session_state.translation_language = language_code
+            st.session_state.waiting_for = 6
+            bot_response = "Type the text you want to translate."
+    elif st.session_state.waiting_for == 6:
+        translated_text = resp.translate_text(user_input, st.session_state.translation_language)
+        bot_response = f"Translated: {translated_text}"
+        st.session_state.waiting_for = None
+        st.session_state.translation_language = None
     else:
         # Clean string for keyword matching
         cleaned_choice = user_input.lower().strip()
@@ -256,6 +273,9 @@ if user_input := st.chat_input("Type a message..."):
                 st.session_state.waiting_for = 2
             elif cleaned_choice in ifn.gay:
                 bot_response = random.choice(resp.gay)
+            elif cleaned_choice in ifn.translate:
+                bot_response = "Choose a language: French, Spanish, or German."
+                st.session_state.waiting_for = 5
             elif cleaned_choice in ifn.joke:
                 bot_response = random.choice(resp.joke)
             elif cleaned_choice in ifn.exit:
