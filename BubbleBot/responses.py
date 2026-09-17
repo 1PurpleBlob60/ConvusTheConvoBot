@@ -52,16 +52,59 @@ def translate_text(text, target_language):
         return text
 
     if GoogleTranslator is None:
-        return text
+        return "Translation library unavailable right now."
 
     try:
         translated = GoogleTranslator(source="en", target=language_code).translate(text)
-        if translated:
+        if translated and translated.strip():
             return translated
     except Exception:
         pass
 
-    return text
+    fallback_translations = {
+        "fr": {
+            "hello": "Bonjour",
+            "hi": "Salut",
+            "goodbye": "Au revoir",
+            "thank you": "Merci",
+            "cat": "chat",
+            "dog": "chien",
+            "house": "maison",
+            "water": "eau",
+            "food": "nourriture",
+            "love": "amour",
+        },
+        "es": {
+            "hello": "Hola",
+            "hi": "Hola",
+            "goodbye": "Adiós",
+            "thank you": "Gracias",
+            "cat": "gato",
+            "dog": "perro",
+            "house": "casa",
+            "water": "agua",
+            "food": "comida",
+            "love": "amor",
+        },
+        "de": {
+            "hello": "Hallo",
+            "hi": "Hallo",
+            "goodbye": "Auf Wiedersehen",
+            "thank you": "Danke",
+            "cat": "Katze",
+            "dog": "Hund",
+            "house": "Haus",
+            "water": "Wasser",
+            "food": "Essen",
+            "love": "Liebe",
+        },
+    }
+
+    lookup = text.strip().lower()
+    if lookup in fallback_translations.get(language_code, {}):
+        return fallback_translations[language_code][lookup]
+
+    return f"Translation for '{text}' is unavailable right now. Try a simple word or phrase."
 
 
 TRANSLATE_ALIASES = [
