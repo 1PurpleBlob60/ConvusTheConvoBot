@@ -16,3 +16,9 @@ def test_translate_text_returns_string_for_supported_language():
     result = responses.translate_text("hello", "fr")
     assert isinstance(result, str)
     assert result.strip()
+    assert result == "Bonjour"
+
+
+def test_translate_text_accepts_full_language_names_and_iso_codes():
+    assert responses.translate_text("hello", "french") == "Bonjour"
+    assert responses.translate_text("hello", "fr") == "Bonjour"

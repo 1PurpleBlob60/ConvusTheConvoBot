@@ -26,6 +26,9 @@ LANGUAGE_CODES = {
     "german": "de",
     "deutsch": "de",
     "deutschland": "de",
+    "fr": "fr",
+    "es": "es",
+    "de": "de",
 }
 
 
