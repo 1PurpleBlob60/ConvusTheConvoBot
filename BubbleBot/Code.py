@@ -155,9 +155,10 @@ with st.sidebar:
     with st.expander("Commands & shortcuts"):
         st.markdown(
             """
-            - Translate: `translate`, `tr`, `trans`
-            - Languages: `f` = French, `s` = Spanish, `g` = German
-            - Full names also work: French, Spanish, German
+            - Translate: `translate`, `trans`, `tr`, `tl`, `translator`, `translation`
+            - Languages: `f` / `fr` = French, `s` / `es` = Spanish, `g` / `de` = German
+            - Full names also work: `French`, `Spanish`, `German`
+            - Quick examples: `tr`, `f`, `s`, `g`
             """
         )
 
