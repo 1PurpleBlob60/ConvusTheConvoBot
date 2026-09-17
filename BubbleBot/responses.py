@@ -1,5 +1,8 @@
 # dont touch this side = this side can be edited remember to use "", "" if not, use only [""]
-from deep_translator import GoogleTranslator
+try:
+    from deep_translator import GoogleTranslator
+except ImportError:
+    GoogleTranslator = None
 
 followup1 = ["Great", "Good to hear that", "Awesome!", "Ok"]
 question1 = ["Good, you?", "I'm good, you?"]
@@ -46,6 +49,9 @@ def translate_text(text, target_language):
 
     language_code = get_language_code(target_language)
     if language_code is None:
+        return text
+
+    if GoogleTranslator is None:
         return text
 
     try:
