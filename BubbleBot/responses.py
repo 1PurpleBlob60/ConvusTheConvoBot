@@ -1,8 +1,12 @@
 # dont touch this side = this side can be edited remember to use "", "" if not, use only [""]
 try:
-    from deep_translator import GoogleTranslator
+    import argostranslate.translate as argos_translate
+    import argostranslate.package as argos_package
 except ImportError:
-    GoogleTranslator = None
+    argos_translate = None
+    argos_package = None
+
+INSTALLED_TRANSLATION_MODELS = set()
 
 followup1 = ["Great", "Good to hear that", "Awesome!", "Ok"]
 question1 = ["Good, you?", "I'm good, you?"]
@@ -51,11 +55,38 @@ def translate_text(text, target_language):
     if language_code is None:
         return text
 
-    if GoogleTranslator is None:
-        return "Translation is unavailable because deep-translator is not installed."
+    if argos_translate is None:
+        return "Translation is unavailable because Argos Translate is not installed."
 
     try:
-        translated = GoogleTranslator(source="en", target=language_code).translate(text)
+        installed_targets = {
+            translation.to_lang.code
+            for language in argos_translate.get_installed_languages()
+            for translation in language.translations_from
+            if translation.from_lang.code == "en"
+        }
+        if language_code not in installed_targets:
+            if argos_package is None:
+                return "Translation models are unavailable because Argos Translate is not installed."
+            if language_code not in INSTALLED_TRANSLATION_MODELS:
+                argos_package.update_package_index()
+                installed = argos_package.install_package_for_language_pair(
+                    "en",
+                    language_code,
+                )
+                if not installed:
+                    return f"The {language_code} translation model could not be installed."
+                INSTALLED_TRANSLATION_MODELS.add(language_code)
+                installed_targets = {
+                    translation.to_lang.code
+                    for language in argos_translate.get_installed_languages()
+                    for translation in language.translations_from
+                    if translation.from_lang.code == "en"
+                }
+            if language_code not in installed_targets:
+                return f"The {language_code} translation model is not available yet."
+
+        translated = argos_translate.translate(text, "en", language_code)
         if translated and translated.strip():
             return translated
     except Exception:
