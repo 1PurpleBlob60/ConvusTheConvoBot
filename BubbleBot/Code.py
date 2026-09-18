@@ -93,7 +93,7 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
 if "button_color" not in st.session_state:
-    st.session_state.button_color = "#ff4b4b"
+    st.session_state.button_color = "#120c76"
 
 if "button_color_picker" not in st.session_state:
     st.session_state.button_color_picker = st.session_state.button_color

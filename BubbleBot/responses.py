@@ -52,7 +52,7 @@ def translate_text(text, target_language):
         return text
 
     if GoogleTranslator is None:
-        return "Translation library unavailable right now."
+        return "Translation is unavailable because deep-translator is not installed."
 
     try:
         translated = GoogleTranslator(source="en", target=language_code).translate(text)
